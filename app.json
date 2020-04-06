@@ -1,0 +1,7 @@
+{
+  "name": "TinyMarket on Heroku",
+  "description": "TinyMarket which can easily be deployed to Heroku.",
+  "addons": [
+    "heroku-postgresql"
+  ]
+}
