@@ -1,5 +1,6 @@
 package cn.ivanlu.market.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.Date;
 public class User {
     private long id;
     private String username;
+    @JsonIgnore
     private String password;
     private String email;
     private String phone;

@@ -9,5 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserDao {
     @Select("select * from user where id = #{id}")
-    User getById(long id);
+    User getUserById(long id);
+
+    @Select("select * from user where username=#{username} limit 1")
+    User getUserByUsername(String username);
 }
