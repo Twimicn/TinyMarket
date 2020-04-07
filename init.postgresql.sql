@@ -1,13 +1,13 @@
-create table tm_user
+create table "tm_user"
 (
-	id integer
+	id serial
 		constraint tm_user_pk
-			primary key autoincrement,
+			primary key,
 	username varchar(50) not null,
 	password varchar(50) not null,
 	email varchar(50),
 	phone varchar(20),
-	role_id integer,
-	create_time datetime,
-	update_time datetime
+	role_id int,
+	create_time timestamp,
+	update_time timestamp
 );
