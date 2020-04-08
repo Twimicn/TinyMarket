@@ -16,4 +16,17 @@ public class User {
     private int roleId;
     private Date createTime;
     private Date updateTime;
+
+    public User() {
+
+    }
+
+    public User(String username, String password, String email, String phone) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.createTime = new Date();
+        this.roleId = 0;
+    }
 }

@@ -8,5 +8,5 @@ public interface UserService {
 
     ApiResponse<User> login(String username, String password);
 
-    int register(User user);
+    ApiResponse<User> register(User user);
 }
