@@ -1,10 +1,7 @@
 package cn.ivanlu.market.dao;
 
 import cn.ivanlu.market.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 @Mapper
@@ -19,4 +16,7 @@ public interface UserDao {
     @Insert("insert into tm_user(username,password,email,phone,create_time,role_id) values (#{username},#{password},#{email},#{phone},#{createTime},#{roleId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     long create(User user);
+
+    @Update("update tm_user set token=#{token},update_time=#{updateTime} where id=#{id}")
+    int updateToken(User user);
 }

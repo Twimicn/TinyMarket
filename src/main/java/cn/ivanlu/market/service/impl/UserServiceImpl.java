@@ -7,6 +7,8 @@ import cn.ivanlu.market.service.UserService;
 import cn.ivanlu.market.util.MD5;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
@@ -26,7 +28,13 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUserByUsername(username);
         if (user != null) {
             if (user.getPassword().equals(MD5.encode(password))) {
-                return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
+                user.setToken(MD5.encode("BUNNY_" + (System.currentTimeMillis() / 86400000) + "$" + user.getUsername()));
+                user.setUpdateTime(new Date());
+                if (userDao.updateToken(user) > 0) {
+                    return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
+                } else {
+                    return ApiResponse.<User>builder().status(-6).msg("数据库出错").build();
+                }
             } else {
                 return ApiResponse.<User>builder().status(1001).msg("密码错误").build();
             }

@@ -9,5 +9,6 @@ create table tm_user
 	phone varchar(20),
 	role_id integer,
 	create_time datetime,
-	update_time datetime
+	update_time datetime,
+	token varchar (30)
 );

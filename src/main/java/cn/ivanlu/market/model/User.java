@@ -16,6 +16,7 @@ public class User {
     private int roleId;
     private Date createTime;
     private Date updateTime;
+    private String token;
 
     public User() {
 
