@@ -10,5 +10,5 @@ create table "tm_user"
 	role_id int,
 	create_time timestamp,
 	update_time timestamp,
-	token varchar (30)
+	token varchar (40)
 );
