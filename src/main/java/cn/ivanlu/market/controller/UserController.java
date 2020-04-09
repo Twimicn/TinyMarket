@@ -1,13 +1,16 @@
 package cn.ivanlu.market.controller;
 
+import cn.ivanlu.market.annotation.Permission;
 import cn.ivanlu.market.common.ApiResponse;
 import cn.ivanlu.market.model.User;
 import cn.ivanlu.market.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @CrossOrigin
 public class UserController {
 
@@ -33,5 +36,13 @@ public class UserController {
     ) {
         User user = new User(username, password, email, phone);
         return userService.register(user);
+    }
+
+    @Permission("login")
+    @RequestMapping(value = "/my_info", method = RequestMethod.POST)
+    @ResponseBody
+    public User apiMyInfo(HttpServletRequest request) {
+        User user = (User) request.getAttribute("curUser");
+        return user;
     }
 }
