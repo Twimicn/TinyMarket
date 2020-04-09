@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByToken(String token) {
+        return userDao.getUserByToken(token);
+    }
+
+    @Override
     public ApiResponse<User> login(String username, String password) {
         User user = userDao.getUserByUsername(username);
         if (user != null) {

@@ -13,6 +13,9 @@ public interface UserDao {
     @Select("select * from tm_user where username=#{username} limit 1")
     User getUserByUsername(String username);
 
+    @Select("select * from tm_user where token=#{token} limit 1")
+    User getUserByToken(String token);
+
     @Insert("insert into tm_user(username,password,email,phone,create_time,role_id) values (#{username},#{password},#{email},#{phone},#{createTime},#{roleId})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     long create(User user);
