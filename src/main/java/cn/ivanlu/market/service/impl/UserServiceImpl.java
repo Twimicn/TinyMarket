@@ -17,6 +17,9 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
+    private String generateToken(String username) {
+        return MD5.encode("BUNNY_" + (System.currentTimeMillis() / 86400000) + "$" + username);
+    }
 
     @Override
     public User getUserById(long id) {
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUserByUsername(username);
         if (user != null) {
             if (user.getPassword().equals(MD5.encode(password))) {
-                user.setToken(MD5.encode("BUNNY_" + (System.currentTimeMillis() / 86400000) + "$" + user.getUsername()));
+                user.setToken(generateToken(user.getUsername()));
                 user.setUpdateTime(new Date());
                 if (userDao.updateToken(user) > 0) {
                     return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
@@ -55,6 +58,7 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<User>builder().status(1003).msg("用户名已存在").build();
         }
         user.setPassword(MD5.encode(user.getPassword()));
+        user.setToken(generateToken(user.getUsername()));
         long uid = userDao.create(user);
         if (uid <= 0) {
             return ApiResponse.<User>builder().status(-6).msg("数据库出错").build();
