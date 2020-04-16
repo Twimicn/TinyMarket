@@ -8,6 +8,7 @@ import cn.ivanlu.market.util.MD5;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,6 +30,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByToken(String token) {
         return userDao.getUserByToken(token);
+    }
+
+    @Override
+    public List<User> getUsersByPage(int page, int size) {
+        return userDao.getUsersByPage((page - 1) * size, size);
     }
 
     @Override
