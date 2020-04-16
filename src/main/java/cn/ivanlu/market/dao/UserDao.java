@@ -18,7 +18,7 @@ public interface UserDao {
     @Select("select * from tm_user where token=#{token} limit 1")
     User getUserByToken(String token);
 
-    @Select("select * from tm_user limit #{size} offset #{st}")
+    @Select("select * from tm_user order by id limit #{size} offset #{st}")
     List<User> getUsersByPage(@Param("st") int start, @Param("size") int size);
 
     @Insert("insert into tm_user(username,password,email,phone,create_time,role_id) values (#{username},#{password},#{email},#{phone},#{createTime},#{roleId})")
