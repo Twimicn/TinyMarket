@@ -17,6 +17,7 @@ public class User {
     private Date createTime;
     private Date updateTime;
     private String token;
+    private Date expire;
 
     public User() {
 

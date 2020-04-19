@@ -25,6 +25,6 @@ public interface UserDao {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     long create(User user);
 
-    @Update("update tm_user set token=#{token},update_time=#{updateTime} where id=#{id}")
+    @Update("update tm_user set token=#{token},update_time=#{updateTime},expire=#{expire} where id=#{id}")
     int updateToken(User user);
 }

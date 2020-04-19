@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private String generateToken(String username) {
-        return MD5.encode("BUNNY_" + (System.currentTimeMillis() / 86400000) + "$" + username);
+        return MD5.encode("BUNNY_" + Math.random() + "$" + username);
     }
 
     @Override
@@ -29,7 +29,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByToken(String token) {
-        return userDao.getUserByToken(token);
+        User user = userDao.getUserByToken(token);
+        if (user != null) {
+            if ((new Date()).after(user.getExpire())) {
+                return null;
+            }
+        }
+        return user;
     }
 
     @Override
@@ -42,7 +48,10 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUserByUsername(username);
         if (user != null) {
             if (user.getPassword().equals(MD5.encode(password))) {
-                user.setToken(generateToken(user.getUsername()));
+                if (null == user.getExpire() || (new Date()).after(user.getExpire())) {
+                    user.setExpire(new Date(System.currentTimeMillis() + 86400000L));
+                    user.setToken(generateToken(user.getUsername()));
+                }
                 user.setUpdateTime(new Date());
                 if (userDao.updateToken(user) > 0) {
                     return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
@@ -64,6 +73,7 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<User>builder().status(1003).msg("用户名已存在").build();
         }
         user.setPassword(MD5.encode(user.getPassword()));
+        user.setExpire(new Date(System.currentTimeMillis() + 86400000L));
         user.setToken(generateToken(user.getUsername()));
         long uid = userDao.create(user);
         if (uid <= 0) {
