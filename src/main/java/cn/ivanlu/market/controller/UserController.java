@@ -2,6 +2,7 @@ package cn.ivanlu.market.controller;
 
 import cn.ivanlu.market.annotation.Permission;
 import cn.ivanlu.market.common.ApiResponse;
+import cn.ivanlu.market.common.PageData;
 import cn.ivanlu.market.model.User;
 import cn.ivanlu.market.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -42,10 +43,14 @@ public class UserController {
     @Permission("admin")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public ApiResponse<List<User>> apiList(
+    public ApiResponse<PageData<User>> apiList(
             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        return ApiResponse.<List<User>>builder().status(0).msg("ok").data(userService.getUsersByPage(page, size)).build();
+        PageData<User> userPageData = PageData.<User>builder()
+                .list(userService.getUsersByPage(page, size)).page(page)
+                .total(userService.count())
+                .build();
+        return ApiResponse.<PageData<User>>builder().status(0).msg("ok").data(userPageData).build();
     }
 
     @Permission("login")

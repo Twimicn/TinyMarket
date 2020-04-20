@@ -12,6 +12,8 @@ public interface UserService {
 
     User getUserByToken(String token);
 
+    int count();
+
     List<User> getUsersByPage(int page, int size);
 
     ApiResponse<User> login(String username, String password);
