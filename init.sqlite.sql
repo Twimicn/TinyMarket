@@ -10,7 +10,8 @@ create table tm_user
     role_id     integer,
     create_time datetime,
     update_time datetime,
-    token       varchar(40)
+    token       varchar(40),
+    expire      datetime
 );
 create table tm_cart
 (
