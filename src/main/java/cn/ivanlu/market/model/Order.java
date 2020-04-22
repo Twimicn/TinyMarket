@@ -21,19 +21,4 @@ public class Order {
     private Date closeTime;
     private Date createTime;
     private Date updateTime;
-
-    public Order() {
-
-    }
-
-    public Order(long id, String orderNo, long userId, long shippingId, BigDecimal payment, int paymentType, int postage, int status) {
-        this.id = id;
-        this.orderNo = orderNo;
-        this.userId = userId;
-        this.shippingId = shippingId;
-        this.payment = payment;
-        this.paymentType = paymentType;
-        this.postage = postage;
-        this.status = status;
-    }
 }

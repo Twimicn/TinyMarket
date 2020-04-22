@@ -34,7 +34,7 @@ create table tm_category
     parent_id   integer default 0,
     name        varchar(50) not null,
     status      integer default 1,
-    sort_order  integer,
+    sort_order  integer default 0,
     create_time datetime,
     update_time datetime
 );
