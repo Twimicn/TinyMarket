@@ -38,6 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category getById(long id) {
+        return categoryDao.getById(id);
+    }
+
+    @Override
     public int count() {
         return categoryDao.count();
     }

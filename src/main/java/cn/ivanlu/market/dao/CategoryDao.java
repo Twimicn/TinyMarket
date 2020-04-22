@@ -16,6 +16,9 @@ public interface CategoryDao {
     @Update("update tm_category set name=#{name} where id=#{id}")
     int updateName(long id, String name);
 
+    @Select("select * from tm_category where id = #{id}")
+    Category getById(long id);
+
     @Select("select count(1) from tm_category")
     int count();
 

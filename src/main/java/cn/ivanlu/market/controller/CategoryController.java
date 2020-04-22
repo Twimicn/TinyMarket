@@ -8,6 +8,9 @@ import cn.ivanlu.market.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/api/category")
 @CrossOrigin
@@ -35,14 +38,15 @@ public class CategoryController {
     @Permission("admin")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public ApiResponse<PageData<Category>> apiList(
+    public ApiResponse<Map<String, Object>> apiList(
             @RequestParam(name = "pid", required = false, defaultValue = "0") long pid,
             @RequestParam(name = "page", required = false, defaultValue = "1") int page,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size) {
-        PageData<Category> pageData = PageData.<Category>builder()
-                .list(categoryService.listByPidAndPage(pid, page, size)).page(page)
-                .total(categoryService.countByPid(pid))
-                .build();
-        return ApiResponse.<PageData<Category>>builder().status(0).msg("ok").data(pageData).build();
+        Map<String, Object> data = new HashMap<>();
+        data.put("data", categoryService.getById(pid));
+        data.put("total", categoryService.countByPid(pid));
+        data.put("page", page);
+        data.put("list", categoryService.listByPidAndPage(pid, page, size));
+        return ApiResponse.<Map<String, Object>>builder().status(0).msg("ok").data(data).build();
     }
 }

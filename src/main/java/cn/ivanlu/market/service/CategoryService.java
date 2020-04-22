@@ -12,6 +12,8 @@ public interface CategoryService {
 
     ApiResponse<Void> editCategory(long id, String name);
 
+    Category getById(long id);
+
     int count();
 
     List<Category> listByPage(int page, int size);
