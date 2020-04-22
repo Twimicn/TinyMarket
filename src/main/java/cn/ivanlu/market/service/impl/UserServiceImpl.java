@@ -51,23 +51,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public ApiResponse<User> login(String username, String password) {
         User user = userDao.getUserByUsername(username);
-        if (user != null) {
-            if (user.getPassword().equals(MD5.encode(password))) {
-                if (null == user.getExpire() || (new Date()).after(user.getExpire())) {
-                    user.setExpire(new Date(System.currentTimeMillis() + 86400000L));
-                    user.setToken(generateToken(user.getUsername()));
-                }
-                user.setUpdateTime(new Date());
-                if (userDao.updateToken(user) > 0) {
-                    return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
-                } else {
-                    return ApiResponse.<User>builder().status(-6).msg("数据库出错").build();
-                }
-            } else {
-                return ApiResponse.<User>builder().status(1001).msg("密码错误").build();
-            }
-        } else {
+        if (user == null) {
             return ApiResponse.<User>builder().status(1002).msg("用户不存在").build();
+        }
+        if (!user.getPassword().equals(MD5.encode(password))) {
+            return ApiResponse.<User>builder().status(1001).msg("密码错误").build();
+        }
+        if (null == user.getExpire() || (new Date()).after(user.getExpire())) {
+            user.setExpire(new Date(System.currentTimeMillis() + 86400000L));
+            user.setToken(generateToken(user.getUsername()));
+        }
+        user.setUpdateTime(new Date());
+        if (userDao.updateToken(user) > 0) {
+            return ApiResponse.<User>builder().status(0).msg("ok").data(user).build();
+        } else {
+            return ApiResponse.<User>builder().status(-6).msg("数据库出错").build();
         }
     }
 
